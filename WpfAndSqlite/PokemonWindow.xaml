@@ -1,0 +1,129 @@
+﻿<Window x:Class="WpfAndSqlite.PokemonWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAndSqlite"
+        mc:Ignorable="d"
+        Title="PokemonWindow" Height="300" Width="300" WindowStyle="None"
+        WindowStartupLocation="CenterScreen" Icon="/Images/Skin_-_Pokeball.png">
+    <Window.Template>
+        <ControlTemplate TargetType="Window">
+            <Border Background="Black">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".02*"/>
+                        <RowDefinition/>
+                        <RowDefinition Height=".02*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".02*"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width=".02*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.Row="1" Grid.Column="1" Fill="#ff3f3f"></Rectangle>
+
+                    <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
+                        <AdornerDecorator>
+                            <ContentPresenter/>
+                        </AdornerDecorator>
+                    </Border>
+
+                </Grid>
+            </Border>
+        </ControlTemplate>
+    </Window.Template>
+    <Window.Resources>
+        <local:ImagePostfixValueConverter x:Key="PostfixConverter"/>
+        
+        <ControlTemplate x:Key="validationBorder">
+            <Border  BorderBrush="Black" BorderThickness="2">
+                <AdornedElementPlaceholder/>
+            </Border>
+        </ControlTemplate>
+        
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White" ></Setter>
+            <Setter Property="VerticalContentAlignment"  Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Width" Value="70" />
+            <Setter Property="Height" Value="25" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource validationBorder}" />
+            <Setter Property="Background" Value="White" ></Setter>
+            <Setter Property="Width" Value="100" />
+        </Style>
+        <Style TargetType="Button" >
+            <Setter Property="Background" Value="White" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <Label Content="Имя"></Label>
+                <TextBox>
+                    <TextBox.Text>
+                        <Binding Path="Name">
+                            <Binding.ValidationRules>
+                                <ExceptionValidationRule/>
+                            </Binding.ValidationRules>    
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <Label Content="Номер"></Label>
+                <TextBox>
+                    <TextBox.Text>
+                        <Binding Path="Number">
+                            <Binding.ValidationRules>
+                                <ExceptionValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <Label Content="Вес"></Label>
+                <TextBox>
+                    <TextBox.Text>
+                        <Binding Path="Weight">
+                            <Binding.ValidationRules>
+                                <ExceptionValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <Label Content="Рост"></Label>
+                <TextBox Name="HeightT">
+                    <TextBox.Text>
+                    <Binding Path="Height">
+                        <Binding.ValidationRules>
+                            <ExceptionValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <Label Content="Картинка"></Label>
+                <Image Name="ImagePoke" Source="{Binding Image, Converter={StaticResource PostfixConverter}}" Height="25" Width="51" />
+                <Button Content="Выбор" Width="50" Name="ChooseImage" Click="ChooseImage_Click" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <Label Content="Модель"/>
+                <Button Content="Выбор" Width="{Binding ElementName=HeightT, Path=Width}" Name="ChooseModel" Click="ChooseModel_Click"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <Button Width="90" Height="30" Content="Сохранить" Name="SaveBtn" Click="SaveBtn_Click" />
+                <Button Width="90" Height="30" Content="Отмена" Name="CancelBtn" Click="CancelBtn_Click" />
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>
